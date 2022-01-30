@@ -6,6 +6,8 @@
 #include<fcntl.h> 
 #include<stdlib.h>
 #include<string.h>
+int ft_atoi(char *str);
+
 void    find(char **dict, int line)
 {
     int i;
@@ -52,7 +54,7 @@ char    **memalloc(int count, int line)
     char **dict;
     int i;
 
-    dict = (char **)malloc(sizeof(char *) * (line + 1));
+    dict = (char **)malloc(sizeof(char *) * (line - 1));
     i = 0;
     while (i < line)
     {
@@ -117,14 +119,21 @@ int main(void)
 {
     char **dict;
     int line = 0;
+    int n = 60;
+
     dict = dict_init("numbers.dict");
     while (dict[line])
     {
-        if(atoi(dict[line]) == 20)
+        if(ft_atoi(dict[line]) == n)
         {
             printvalue(dict[line]);
             //printf("%s\n", dict[line ]);
         }
-        line++;
+        free(dict[line]);
+        line = line + 1;
     }
+    free(dict[line + 1]);
+    printf("%d", line);
+    n = 0;
+    free(dict);
 }
