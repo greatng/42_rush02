@@ -13,30 +13,32 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
-void		search(unsigned int n);
-void	spliter(unsigned int input);
+#include <stdio.h>
+void    setfree(char **dict);
+char 	**dict_init(char *dictpath);
+void	search(unsigned int n, char **dict);
+void	spliter(unsigned int input, char **dict);
 void	ft_putchar(char c);
 /*int	ft_atoi(char *str);*/
 
-void	check_input(unsigned int input)
+void	check_input(unsigned int input, char **dict)
 {
 	if (input < 0 || input > 4294967295)
 		write(1, "Error\n", 6);
 	else
-		spliter(input);
+		spliter(input, dict);
 }
 
-void	converter(char *str)
+void	converter(char *str, char **dict)
 {
 	unsigned int	input;
 
 	input = atoi(str);
-	check_input(input);
+	check_input(input, dict);
 }
 
-void	spliter(unsigned int input)
+void	spliter(unsigned int input, char **dict)
 {
 	unsigned int	tmp;
 	unsigned int	out;
@@ -50,8 +52,8 @@ void	spliter(unsigned int input)
 		else if (input >= tmp&& input >= 100)
 		{	
 			out = input / tmp;
-			search(out);
-			search(tmp);
+			search(out, dict);
+			search(tmp, dict);
 			input = input % tmp;
 			tmp = tmp / 10;
 		}
@@ -61,14 +63,14 @@ void	spliter(unsigned int input)
 			if (input <= 20)
 			{
 				out = input;
-				search(out);
+				search(out, dict);
 			}
 			else
 			{
 				out = input - outb;
-				search(out);
+				search(out, dict);
 				if (outb != 0)
-				       search(outb);
+				       search(outb, dict);
 			}
 			tmp = 0;	
 		}	
@@ -78,7 +80,10 @@ void	spliter(unsigned int input)
 int	main(void)
 {
 	char	*str;
+	char	**dict;
 
+	dict = dict_init("numbers.dict");
 	str = "100000";
-	converter(str);
+	converter(str, dict);
+	setfree(dict);
 }

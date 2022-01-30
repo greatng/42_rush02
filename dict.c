@@ -108,23 +108,22 @@ void    setfree(char **dict)
    i = 0;
    if (!dict)
         return;
-   while (dict[i])
+   while (i < 41)
    {
        free(dict[i]);
+       printf("%p %d\n", dict[i], i);
        dict[i] = NULL;
        i++;
-   } 
+   }
+   printf("End of loop\n");
    free(dict);
    dict = NULL;
-
 }
 
-void search(unsigned int n)
+void search(unsigned int n, char **dict)
 {
-    char **dict;
     int line = 0;
 
-    dict = dict_init("numbers.dict");
     while (dict[line])
     {
         if(atoi(dict[line]) == n)
@@ -134,5 +133,4 @@ void search(unsigned int n)
         }
         line = line + 1;
     }
-    setfree(dict);
 }
