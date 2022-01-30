@@ -20,6 +20,7 @@ char 	**dict_init(char *dictpath);
 void	search(unsigned int n, char **dict, int *init);
 void	spliter(unsigned int input, char **dict, int *init);
 void	ft_putchar(char c);
+void    splitter2(unsigned int input, char **dict, int *init);
 /*int	ft_atoi(char *str);*/
 
 void	check_input(unsigned int input, char **dict)
@@ -43,41 +44,51 @@ void	converter(char *str, char **dict)
 
 void	spliter(unsigned int input, char **dict, int *init)
 {
-	unsigned int	tmp;
-	unsigned int	out;
-	unsigned int	outb;
-
-	tmp = 1000000000;
-	while (tmp != 0)
+    if (input >= 0 && input <= 9)
 	{
-		if (input < tmp)
-		       tmp = tmp / 10;
-		else if (input >= tmp&& input >= 100)
-		{	
-			out = input / tmp;
-			search(out, dict, init);
-			search(tmp, dict, init);
-			input = input % tmp;
-			tmp = tmp / 10;
-		}
-		else if (input <= 99)
-		{
-			outb = input % 10;
-			if (input <= 20)
-			{
-				out = input;
-				search(out, dict, init);
-			}
-			else
-			{
-				out = input - outb;
-				search(out, dict, init);
-				if (outb != 0)
-				       search(outb, dict, init);
-			}
-			tmp = 0;	
-		}	
+        search(input, dict, init);
+		return ;
 	}
+    if (input >= 10 && input <= 20)
+	{
+        search(input, dict, init);
+		return ;
+	}
+    if (input >= 1000000)
+    {
+        spliter(input / 1000000, dict, init);
+        search(1000000, dict, init);
+        input = input % 1000000;
+    }
+    if (input >= 10000)
+    {
+        spliter(input / 1000, dict, init);
+        search(1000, dict, init);
+        input = input % 1000;
+    }
+    splitter2(input, dict, init);
+}
+
+void    splitter2(unsigned int input, char **dict, int *init)
+{
+	if (input >= 1000)
+	{
+		search(input / 1000, dict, init);
+		search(1000, dict, init);
+		input = input % 1000;
+	}
+    if (input >= 100)
+    {
+        search(input / 100, dict, init);
+        search(100, dict, init);
+        input = input % 100;
+    }
+    if (input > 20)
+    {
+        search((input / 10) * 10, dict, init);
+        search(input % 10, dict, init); 
+    } else if (input != 0)
+        spliter(input, dict, init);
 }
 
 void	toconverter(char *nbr, char *path)
