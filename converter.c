@@ -83,7 +83,7 @@ int	main(void)
 	char	**dict;
 
 	dict = dict_init("numbers.dict");
-	str = "100000";
+	str = "12345";
 	converter(str, dict);
 	setfree(dict);
 }

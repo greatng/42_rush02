@@ -1,12 +1,10 @@
+#include <stdio.h> 
+#include <unistd.h> 
+#include <fcntl.h> 
+#include <stdlib.h>
+#include <string.h>
 
-// C program to illustrate 
-// read system Call 
-#include<stdio.h> 
-#include<unistd.h> 
-#include<fcntl.h> 
-#include<stdlib.h>
-#include<string.h>
-int ft_atoi(char *str);
+unsigned int ft_atoi(char *str);
 
 char    **assigndict(char **dict, char *dictpath, int line)
 {
@@ -40,11 +38,11 @@ char    **memalloc(int count, int line)
     char **dict;
     int i;
 
-    dict = (char **)malloc(sizeof(char *) * (line));
+    dict = (char **)malloc(sizeof(char *) * (line + 1));
     i = 0;
-    while (i < line)
+    while (i < line - 1 )
     {
-        dict[i] = (char *)malloc(sizeof(char) * count);
+        dict[i] = (char *)malloc(sizeof(char));
         i++;
     }
     return (dict);
@@ -57,7 +55,6 @@ char **dict_init(char *dictpath)
     int fd;
     int line;
     char buff;
-    char **dict;
 
     i = 0;
     count = 0;
@@ -73,8 +70,7 @@ char **dict_init(char *dictpath)
             break;
     }
     close(fd);
-    dict = memalloc(count, line);
-    return (assigndict(dict, dictpath, line));
+    return (assigndict(memalloc(count, line), dictpath, line));
 }
 
 void    printvalue(char *dict)
@@ -108,14 +104,12 @@ void    setfree(char **dict)
    i = 0;
    if (!dict)
         return;
-   while (i < 41)
+   while (dict[i])
    {
        free(dict[i]);
-       printf("%p %d\n", dict[i], i);
        dict[i] = NULL;
        i++;
    }
-   printf("End of loop\n");
    free(dict);
    dict = NULL;
 }
@@ -129,7 +123,6 @@ void search(unsigned int n, char **dict)
         if(atoi(dict[line]) == n)
         {
             printvalue(dict[line]);
-            //printf("%s\n", dict[line ]);
         }
         line = line + 1;
     }
