@@ -119,11 +119,10 @@ void    setfree(char **dict)
 
 }
 
-int main(void)
+void search(unsigned int n)
 {
     char **dict;
     int line = 0;
-    int n = 60;
 
     dict = dict_init("numbers.dict");
     while (dict[line])
