@@ -17,17 +17,20 @@
 #include <stdio.h>
 void    setfree(char **dict);
 char 	**dict_init(char *dictpath);
-void	search(unsigned int n, char **dict);
-void	spliter(unsigned int input, char **dict);
+void	search(unsigned int n, char **dict, int *init);
+void	spliter(unsigned int input, char **dict, int *init);
 void	ft_putchar(char c);
 /*int	ft_atoi(char *str);*/
 
 void	check_input(unsigned int input, char **dict)
 {
+	int	init;
+
+	init = 0;
 	if (input < 0 || input > 4294967295)
 		write(1, "Error\n", 6);
 	else
-		spliter(input, dict);
+		spliter(input, dict, &init);
 }
 
 void	converter(char *str, char **dict)
@@ -38,7 +41,7 @@ void	converter(char *str, char **dict)
 	check_input(input, dict);
 }
 
-void	spliter(unsigned int input, char **dict)
+void	spliter(unsigned int input, char **dict, int *init)
 {
 	unsigned int	tmp;
 	unsigned int	out;
@@ -52,8 +55,8 @@ void	spliter(unsigned int input, char **dict)
 		else if (input >= tmp&& input >= 100)
 		{	
 			out = input / tmp;
-			search(out, dict);
-			search(tmp, dict);
+			search(out, dict, init);
+			search(tmp, dict, init);
 			input = input % tmp;
 			tmp = tmp / 10;
 		}
@@ -63,27 +66,26 @@ void	spliter(unsigned int input, char **dict)
 			if (input <= 20)
 			{
 				out = input;
-				search(out, dict);
+				search(out, dict, init);
 			}
 			else
 			{
 				out = input - outb;
-				search(out, dict);
+				search(out, dict, init);
 				if (outb != 0)
-				       search(outb, dict);
+				       search(outb, dict, init);
 			}
 			tmp = 0;	
 		}	
 	}
 }
 
-int	main(void)
+void	toconverter(char *nbr, char *path)
 {
-	char	*str;
 	char	**dict;
 
-	dict = dict_init("numbers.dict");
-	str = "12345";
-	converter(str, dict);
+	dict = dict_init(path);
+	converter(nbr, dict);
 	setfree(dict);
+	write(1, "\n", 1);
 }

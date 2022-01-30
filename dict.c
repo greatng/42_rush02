@@ -42,7 +42,7 @@ char    **memalloc(int count, int line)
     i = 0;
     while (i < line - 1 )
     {
-        dict[i] = (char *)malloc(sizeof(char));
+        dict[i] = (char *)malloc(sizeof(char) * count);
         i++;
     }
     return (dict);
@@ -94,7 +94,6 @@ void    printvalue(char *dict)
             space = 1;
         write(1, &dict[i++], 1);
     }
-    write(1, "\n", 1);
 }
 
 void    setfree(char **dict)
@@ -114,16 +113,25 @@ void    setfree(char **dict)
    dict = NULL;
 }
 
-void search(unsigned int n, char **dict)
+void search(unsigned int n, char **dict, int *init)
 {
-    int line = 0;
+    int line;
+    int found;
 
-    while (dict[line])
+    line = 0;
+    found = 0;
+    if (*init != 0)
+        write(1, " ", 1);
+    while (dict[line++])
     {
-        if(atoi(dict[line]) == n)
+        if(atoi(dict[line - 1]) == n)
         {
-            printvalue(dict[line]);
+            found = 1;
+            *init = *init + 1;
+            printvalue(dict[line - 1]);
+            break ;
         }
-        line = line + 1;
     }
+    if (!found)
+        write(1, "Dict Error\n", 11);
 }
