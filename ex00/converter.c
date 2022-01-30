@@ -6,7 +6,7 @@
 /*   By: nvachira <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 20:22:12 by nvachira          #+#    #+#             */
-/*   Updated: 2022/01/30 21:38:51 by pngamcha         ###   ########.fr       */
+/*   Updated: 2022/01/30 23:08:46 by pngamcha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void	splitter2(unsigned int input, char **dict, int *init)
 	if (input > 20)
 	{
 		search((input / 10) * 10, dict, init);
-		search(input % 10, dict, init);
+		input = input % 10;
 	}
-	else if (input != 0)
+	if (input != 0)
 		spliter(input, dict, init);
 }
 
