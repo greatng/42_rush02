@@ -8,20 +8,6 @@
 #include<string.h>
 int ft_atoi(char *str);
 
-void    find(char **dict, int line)
-{
-    int i;
-
-    i = 0;
-    while (i < line - 1)
-    {
-        if (100 == atoi(dict[i]))
-            printf("%s", dict[i]);
-        i++;
-    }
-    
-}
-
 char    **assigndict(char **dict, char *dictpath, int line)
 {
     int fd;
@@ -54,11 +40,11 @@ char    **memalloc(int count, int line)
     char **dict;
     int i;
 
-    dict = (char **)malloc(sizeof(char *) * (line - 1));
+    dict = (char **)malloc(sizeof(char *) * (line));
     i = 0;
     while (i < line)
     {
-        dict[i] = (char *)malloc(sizeof(char *) * count);
+        dict[i] = (char *)malloc(sizeof(char) * count);
         i++;
     }
     return (dict);
@@ -115,6 +101,24 @@ void    printvalue(char *dict)
     write(1, "\n", 1);
 }
 
+void    setfree(char **dict)
+{
+   int  i;
+
+   i = 0;
+   if (!dict)
+        return;
+   while (dict[i])
+   {
+       free(dict[i]);
+       dict[i] = NULL;
+       i++;
+   } 
+   free(dict);
+   dict = NULL;
+
+}
+
 int main(void)
 {
     char **dict;
@@ -124,16 +128,12 @@ int main(void)
     dict = dict_init("numbers.dict");
     while (dict[line])
     {
-        if(ft_atoi(dict[line]) == n)
+        if(atoi(dict[line]) == n)
         {
             printvalue(dict[line]);
             //printf("%s\n", dict[line ]);
         }
-        free(dict[line]);
         line = line + 1;
     }
-    free(dict[line + 1]);
-    printf("%d", line);
-    n = 0;
-    free(dict);
+    setfree(dict);
 }
