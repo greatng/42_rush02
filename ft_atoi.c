@@ -22,24 +22,16 @@ int	ft_checkspace(char *str)
 	return (i);
 }
 
-int	ft_atoi(char *str)
+unsigned int	ft_atoi(char *str)
 {
 	int	i;
-	int	minus;
-	int	nbr;
+	unsigned int	nbr;
 
-	minus = 1;
 	nbr = 0;
 	i = ft_checkspace(str);
-	while (str[i] && (str[i] == '-' || str[i] == '+'))
-	{
-		if (str[i] == '-')
-			minus = minus * (-1);
-		i++;
-	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		nbr = nbr * 10 + (str[i++] - 48);
 	}
-	return (nbr * minus);
+	return (nbr);
 }
